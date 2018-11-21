@@ -3,6 +3,10 @@ require('./db');
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+
+const Recipe = mongoose.model('Recipe');
+
 
 const app = express();
 
@@ -29,4 +33,37 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-app.listen(3000);
+
+app.post('/create', (req, res) => {
+    console.log('got this body', req.body);
+
+    const newRecipe = {
+        ingredients: req.body.ingredients,
+
+        instructions: req.body.instructions,
+
+    };
+    new Recipe(newRecipe).save(function(err, sound, count){
+        res.redirect('/');
+
+    });
+
+
+});
+
+app.get('/create', (req, res) => {
+    Recipe.find({} , function(err, result, count) {
+        console.log("hi");
+        const context = {
+            result: result,
+        };
+        console.log(result);
+        //res.render('test', context);
+    });
+
+    res.render('create');
+
+});
+
+
+app.listen(process.env.PORT || 3000);
