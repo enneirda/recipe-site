@@ -67,3 +67,24 @@ app.get('/create', (req, res) => {
 
 
 app.listen(process.env.PORT || 3000);
+
+
+// this will be used to validate usernames and passwords (validate.js)
+
+//from documentation
+var constraints = {
+    username: {
+        presence: true,
+        exclusion: {
+            within: ["nicklas"],
+            message: "'%{value}' is not allowed"
+        }
+    },
+    password: {
+        presence: true,
+        length: {
+            minimum: 6,
+            message: "must be at least 6 characters"
+        }
+    }
+};
