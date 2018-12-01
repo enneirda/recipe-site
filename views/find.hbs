@@ -1,0 +1,44 @@
+<html>
+
+    <div>
+        <h2>WHAT'S IN YOUR FRIDGE? </h2>
+    </div>
+
+    <div> Help us help you find something to make. List the items in your fridge.</div>
+
+
+    <form method="POST" action="/find" class = "addrecipe">
+        <input type="text" name="ingredients"> <br>
+        <input type="submit" value="add">
+
+
+    </form>
+
+
+    <div >
+        ITEMS:
+
+        <div id="list">
+        {{#each currentIngredients }}
+         {{this}}
+
+        {{/each}}
+        </div>
+
+
+
+
+    </div>
+
+    <div id="suggested">
+        <h3>SUGGESTED RECIPES</h3>
+        {{#each result}}
+           <a href =  http://localhost:3000/> {{this.name}}</a>
+        {{/each}}
+    </div>
+    <div id = "popular">
+        <h3>POPULAR RECIPES</h3>
+
+    </div>
+
+</html>

@@ -17,9 +17,12 @@ const userSchema = new Schema({
 // * includes the ingredients required from the items.
 
 const recipeSchema = new Schema({
-  ingredients: {type: Array, required: true},
-instructions: {type: Array}
-}, );
+    name: {type:String},
+    ingredients: {type: Array, required: true},
+    qtys: {type: Array},
+    instructions: {type: Array},
+    tags:{type: Array}
+} );
 
 // is the environment variable, NODE_ENV, set to PRODUCTION?
 let dbconf;
@@ -46,4 +49,5 @@ mongoose.connect(dbconf);
 
 
 // TODO: add remainder of setup for slugs, connection, registering models, etc. below
+
 
