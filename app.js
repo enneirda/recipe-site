@@ -125,6 +125,8 @@ app.post('/find', (req, res) => {
     console.log('got this body', req.body);
 
     const ingredients = req.body.ingredients.split(',');
+        ingredients.filter(filterIngredients(x));
+
     ingredients.forEach(function(element)
     {
         res.locals.currentIngredients.push(element);
