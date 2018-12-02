@@ -1,0 +1,27 @@
+<div class="header">
+    <h2>{{#each newestRecipe }}
+        {{this.name}}
+    </h2>{{/each}}
+</div>
+
+<div >
+
+
+YOU WILL NEED:
+    <ol>{{#each newestRecipe }}
+            {{#each this.qtys}}
+                <li>{{this}}</li>
+            {{/each}}
+    {{/each}}</ol>
+
+        INSTRUCTIONS:
+    <ol>{{#each newestRecipe }}
+        {{#each this.instructions}}
+            <li>{{this}}</li>
+        {{/each}}
+    {{/each}}</ol>
+
+</div>
+
+
+

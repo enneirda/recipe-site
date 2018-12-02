@@ -16,13 +16,15 @@ const sessionOptions = {
     secret: 'secret cookie thang (store this elsewhere!)',
     resave: true,
     saveUninitialized: true,
-    currentIngredients: []
+    currentIngredients: [],
+    newestRecipe: []
 
 };
 app.use(session(sessionOptions));
 
 app.use(function(req, res, next){
     res.locals.currentIngredients = sessionOptions.currentIngredients;
+    res.locals.newestRecipe = sessionOptions.newestRecipe;
     next();
 
 });
@@ -42,9 +44,6 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-app.get('/showrecipe', (req, res) => {
-    res.render('show');
-});
 
 
 
@@ -84,13 +83,25 @@ app.post('/create', (req, res) => {
         tags: tags,
 
     };
+    res.locals.newestRecipe.push(newRecipe);
+    console.log(res.locals.newestRecipe);
+
+
     new Recipe(newRecipe).save(function(err, sound, count){
-        res.redirect('/show');
+
+        res.redirect('/showrecipe');
 
     });
 
 
 });
+
+
+app.get('/showrecipe', (req, res) => {
+    console.log(res.locals.newestRecipe)
+    res.render('show');
+});
+
 
 app.get('/create', (req, res) => {
     Recipe.find({} , function(err, result, count) {
