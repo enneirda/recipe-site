@@ -1,6 +1,6 @@
 // 1ST DRAFT DATA MODEL
 const mongoose = require('mongoose');
-
+const bcrypt = require('bcryptjs');
 const Schema = mongoose.Schema;
 
 // users
@@ -8,11 +8,21 @@ const Schema = mongoose.Schema;
 // * so users have a username and password
 // * they also can have 0 or more lists
 const userSchema = new Schema({
-  // username provided by authentication plugin
-  // password hash provided by authentication plugin
-  lists:  [{ type: mongoose.Schema.Types.ObjectId, ref: 'List' }]
+    email: {type:String, required: true},
+    username: {type:String, required: true},
+  password: {type: String, required: true}
 });
 
+userSchema.methods.setPassword = function(password) {
+    this.salt = crypto.randomBytes(16).toString('hex');
+    this.hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
+};
+
+userSchema.methods.validatePassword = function(password) {
+    return bcrypt.compare(password, hash, function(err, res) {
+        // res === false
+    });
+};
 // A recipe in the database
 // * includes the ingredients required from the items.
 

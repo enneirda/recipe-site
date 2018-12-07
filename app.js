@@ -4,16 +4,35 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+//const errorHandler = require('errorhandler');
+
+const bcrypt = require('bcryptjs');
+
+
+const passport = require('passport'),
+LocalStrategy = require('passport-local').Strategy;
+
+
+
+//Configure mongoose's promise to global promise
+mongoose.promise = global.Promise;
+
+
 
 const Recipe = mongoose.model('Recipe');
+const User = mongoose.model('User');
 let currentIngredients = [];
+
+//Configure isProduction variable
+const isProduction = process.env.NODE_ENV === 'production';
+
 
 const app = express();
 
 // enable sessions
 const session = require('express-session');
 const sessionOptions = {
-    secret: 'secret cookie thang (store this elsewhere!)',
+    secret: 'mySecret',
     resave: true,
     saveUninitialized: true,
     currentIngredients: [],
@@ -21,6 +40,38 @@ const sessionOptions = {
 
 };
 app.use(session(sessionOptions));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(
+
+    function(username, password, done) {
+        User.findOne({ username: username }, function(err, user) {
+            if (err) { return done(err); }
+            if (!user)
+            {
+                return done(null, false, { message: 'Incorrect username.' });
+            }
+
+            if (!user.validatePassword(password))
+            {
+
+                return done(null, false, { message: 'Incorrect password.' });
+            }
+            return done(null, false, { message: 'Incorrect password.' });
+        });
+    }
+));
+passport.serializeUser(function(user, done) {
+    done(null, user._id);
+});
+
+passport.deserializeUser(function(id, done) {
+    User.findById(id, function(err, user) {
+        done(err, user);
+    });
+});
+
+
 
 app.use(function(req, res, next){
     res.locals.currentIngredients = sessionOptions.currentIngredients;
@@ -28,6 +79,12 @@ app.use(function(req, res, next){
     next();
 
 });
+
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 
 
 // view engine setup
@@ -40,12 +97,37 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+app.post('/login', passport.authenticate('local', { successRedirect: '/home',
+    failureRedirect: '/' }));
+
+
+app.get('/home', (req, res) => {
+    res.render('home');
+});
+
 app.get('/', (req, res) => {
   res.render('index');
 });
 
 
 
+app.post('/register', (req, res) => {
+    console.log('got this body', req.body);
+
+    const username = req.body.username;
+    const email = req.body.email;
+
+    const password = req.body.password;
+    const newUser = {username: username, email: email, password: bcrypt.hash(password, 8, function(err, hash) {
+        }) };
+
+    new User(newUser).save(function(err, user, count){
+
+        res.redirect('/home');
+
+    });
+});
 
 app.post('/create', (req, res) => {
     console.log('got this body', req.body);
@@ -161,6 +243,8 @@ app.get('/find', (req, res) => {
 
 
 });
+
+
 
 
 
