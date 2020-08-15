@@ -11,7 +11,6 @@ Find My Recipe will allow users to enter the ingredients they have in their poss
 
 ## Data Model
 
-(___TODO__: a description of your application's data and their relationships to each other_) 
 
 The application will store Users, and Recipes
 
