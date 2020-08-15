@@ -49,19 +49,14 @@ In a large skillet over medium heat, cook ground beef with onion until meat is b
 
 /home - page to navigate to other pages
 
-![](documentation/home.jpg)
 
 /findrecipe - page to enter ingredients to find matching recipe
 
-![](documentation/my fridge.jpg)
 
 /createrecipe - page to add a new recipe to the database
-![](documentation/create.jpg)
 
 
 /myrecipes - page for showing recipes made
-
-![](documentation/my recipes.jpg)
 
 ## Site map
 
