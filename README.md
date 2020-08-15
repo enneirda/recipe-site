@@ -72,8 +72,6 @@ The /findrecipe will link to recipe pages.
 
 ## User Stories or Use Cases
 
-(___TODO__: write out how your application will be used through [user stories](http://en.wikipedia.org/wiki/User_story#Format) and / or [use cases](https://www.mongodb.com/download-center?jmp=docs&_ga=1.47552679.1838903181.1489282706#previous)_)
-
 1. As a non-registered user, I can list what's in my fridge and get recipe suggestions, but data will not be saved.
 2. As a non-registered user, I can register for  a new account on the website.
 3. As a user, I can create new recipes for public or personal viewing. 
