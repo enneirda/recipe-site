@@ -80,13 +80,11 @@ The /findrecipe will link to recipe pages.
 ## Research Topics
 
 
-* (5 points) Integrate user authentication
+* Integrate user authentication
     * I'm going to be using passport for user authentication
     * An account has been made for testing; I'll email you the password
 
-* (4 points) Perform client side form validation using a JavaScript library
-
-10 points total out of 8 required points 
+* Perform client side form validation using a JavaScript library
 
 
 ## [Link to Initial Main Project File](app.js) 
